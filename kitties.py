@@ -4,8 +4,14 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 
 url = "http://thecatapi.com/api/images/get"
+# Change these variables
+#################################
 gmail = 'gmailAddress@gmail.com'
 passw = 'yourPassword'
+users = [
+    {'name': "NameIfYouWant", 'number': "5555555555", 'carrier': "c_map_key"},   
+]
+#################################
 c_map = {
     'ATT': 'mms.att.net',
     'Alltel': 'mms.alltelwireless.com',
@@ -24,7 +30,6 @@ def SendMail(fle, pictype, num, c_url):
     msg['Subject'] = ''
     msg['From'] = gmail
     msg['To'] = num+"@"+c_url
-
     text = MIMEText("Daily dose of the cats!!")
     msg.attach(text)
     image = MIMEImage(img_data, _subtype=pictype, name=os.path.basename(fle))
@@ -51,9 +56,6 @@ def DeletePic(fle):
     os.remove(fle)
 
 if __name__ == '__main__':
-    users = [
-        {'name': "NameIfYouWant", 'number': "5555555555", 'carrier': "c_map_key"},   
-    ]
     res = GetRandomKitty()
     for user in user:
         SendMail(res[0], res[1], user['number'], c_map[user['carrier']])
